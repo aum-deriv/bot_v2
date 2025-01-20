@@ -1,55 +1,122 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+import { useCallback } from "react";
+import ReactFlow, {
+    Node,
+    Edge,
+    useNodesState,
+    useEdgesState,
+    addEdge,
+    Connection,
+    MarkerType,
+    Background,
+    Panel,
+} from "reactflow";
+import "reactflow/dist/style.css";
+
+type NodeData = {
+    label: string;
+    market?: string;
+    tradeType?: string;
+    stake?: number;
+    profitTarget?: number;
+    stopLoss?: number;
+    profitCheck?: boolean;
+    lossCheck?: boolean;
+    timeExit?: string;
+};
+
+// Initial nodes representing our basic trading strategy components
+const initialNodes: Node<NodeData>[] = [
+    {
+        id: "1",
+        type: "input",
+        data: {
+            label: "Entry Conditions",
+            market: "Derived",
+            tradeType: "Up/Down",
+        },
+        position: { x: 250, y: 0 },
+        className: "rounded-lg border-2 border-blue-500 bg-white",
+    },
+    {
+        id: "2",
+        data: {
+            label: "Position Sizing",
+            stake: 10,
+            profitTarget: 100,
+            stopLoss: 50,
+        },
+        position: { x: 250, y: 150 },
+        className: "rounded-lg border-2 border-green-500 bg-white",
+    },
+    {
+        id: "3",
+        type: "output",
+        data: {
+            label: "Exit Conditions",
+            profitCheck: true,
+            lossCheck: true,
+            timeExit: "5m",
+        },
+        position: { x: 250, y: 300 },
+        className: "rounded-lg border-2 border-red-500 bg-white",
+    },
+];
+
+// Initial edges connecting our nodes
+const initialEdges: Edge[] = [
+    {
+        id: "e1-2",
+        source: "1",
+        target: "2",
+        animated: true,
+        markerEnd: { type: MarkerType.ArrowClosed },
+    },
+    {
+        id: "e2-3",
+        source: "2",
+        target: "3",
+        animated: true,
+        markerEnd: { type: MarkerType.ArrowClosed },
+    },
+];
 
 function App() {
-    const [count, setCount] = useState(0);
+    const [nodes, , onNodesChange] = useNodesState(initialNodes);
+    const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+
+    const onConnect = useCallback(
+        (connection: Connection) =>
+            setEdges((eds: Edge[]) => addEdge(connection, eds)),
+        [setEdges]
+    );
 
     return (
-        <div className="min-h-screen flex flex-col items-center justify-center bg-[#242424] text-white">
-            <div className="flex gap-8 mb-8">
-                <a
-                    href="https://vite.dev"
-                    target="_blank"
-                    className="hover:filter hover:drop-shadow-[0_0_2em_#646cffaa]"
-                >
-                    <img
-                        src={viteLogo}
-                        className="h-24 transition-all"
-                        alt="Vite logo"
-                    />
-                </a>
-                <a
-                    href="https://react.dev"
-                    target="_blank"
-                    className="hover:filter hover:drop-shadow-[0_0_2em_#61dafbaa]"
-                >
-                    <img
-                        src={reactLogo}
-                        className="h-24 transition-all animate-[spin_20s_linear_infinite]"
-                        alt="React logo"
-                    />
-                </a>
+        <div className="w-screen h-screen bg-gray-100">
+            <div className="p-4 h-full">
+                <h1 className="text-2xl font-bold mb-4 text-gray-800">
+                    Trading Strategy Builder
+                </h1>
+                <div className="h-[800px] w-full bg-white rounded-lg shadow-lg">
+                    <ReactFlow
+                        nodes={nodes}
+                        edges={edges}
+                        onNodesChange={onNodesChange}
+                        onEdgesChange={onEdgesChange}
+                        onConnect={onConnect}
+                        fitView
+                    >
+                        <Background color="#aaa" gap={16} />
+                        <Panel
+                            position="top-right"
+                            className="bg-white p-4 rounded shadow"
+                        >
+                            <h3 className="font-bold mb-2">Strategy Info</h3>
+                            <p>Nodes: {nodes.length}</p>
+                            <p>Connections: {edges.length}</p>
+                        </Panel>
+                    </ReactFlow>
+                </div>
             </div>
-            <h1 className="text-5xl font-bold mb-8">Vite + React</h1>
-            <div className="text-center mb-8">
-                <button
-                    onClick={() => setCount((count) => count + 1)}
-                    className="rounded-lg border border-transparent px-4 py-2 bg-[#1a1a1a] transition-colors hover:border-[#646cff] font-medium"
-                >
-                    count is {count}
-                </button>
-                <p className="mt-4">
-                    Edit{" "}
-                    <code className="font-mono bg-[#1a1a1a] rounded px-2">
-                        src/App.tsx
-                    </code>{" "}
-                    and save to test HMR
-                </p>
-            </div>
-            <p className="text-[#888]">
-                Click on the Vite and React logos to learn more
-            </p>
         </div>
     );
 }
