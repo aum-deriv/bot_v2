@@ -1,7 +1,7 @@
 export function StrategyConfig() {
     return (
-        <div className="h-[800px] w-full bg-white rounded-lg shadow-lg p-4">
-            <h1 className="text-2xl font-bold mb-4 text-gray-800">
+        <div className="h-full">
+            <h1 className="text-sm font-semibold text-gray-700 mb-3">
                 Strategy Configuration
             </h1>
             {/* Configuration content will go here */}

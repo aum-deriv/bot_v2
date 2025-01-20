@@ -226,7 +226,7 @@ export function StrategyFlow() {
     );
 
     return (
-        <div className="h-[800px] w-full bg-white rounded-lg shadow-lg">
+        <div className="h-full">
             <ReactFlow
                 nodes={nodes}
                 edges={edges}
@@ -238,14 +238,17 @@ export function StrategyFlow() {
                 minZoom={0.5}
                 maxZoom={1.5}
             >
-                <Background color="#aaa" gap={16} />
                 <Panel
                     position="top-right"
-                    className="bg-white p-2 rounded shadow text-[10px]"
+                    className="bg-white px-2 py-1.5 rounded border border-gray-100 shadow-sm text-[10px]"
                 >
-                    <h3 className="font-bold mb-0.5">Strategy Info</h3>
-                    <p>Nodes: {nodes.length}</p>
-                    <p>Connections: {edges.length}</p>
+                    <h3 className="text-xs font-semibold text-gray-600 mb-1.5">
+                        Strategy Info
+                    </h3>
+                    <div className="text-gray-500 space-y-0.5">
+                        <p>Nodes: {nodes.length}</p>
+                        <p>Connections: {edges.length}</p>
+                    </div>
                 </Panel>
             </ReactFlow>
         </div>
