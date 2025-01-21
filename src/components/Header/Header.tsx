@@ -5,8 +5,8 @@ export default function Header() {
         <div className="h-10 px-4 border-b border-gray-100 flex items-center justify-between bg-white">
             <div className="flex items-center gap-2.5">
                 <BrandDerivLogoCoralIcon height="20px" width="20px" />
-                <span className="text-sm font-medium text-gray-800">
-                    bots_v2
+                <span className="text-sm font-bold text-gray-700">
+                    Champion Bot
                 </span>
             </div>
             <div className="flex items-center gap-8 text-xs text-gray-500">

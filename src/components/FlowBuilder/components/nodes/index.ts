@@ -1,105 +1,34 @@
-import { BaseNode, BaseNodeData } from "./BaseNode";
-
-// Entry Node Types
-export interface EntryNodeData extends BaseNodeData {
-    market: string;
-    tradeType: string;
-    timeframe: string;
-    buyOrSell: "buy" | "sell";
-}
-
-// Position Node Types
-export interface PositionNodeData extends BaseNodeData {
-    stake: number;
-    profitTarget: number;
-    stopLoss: number;
-    maxTrades: number;
-    takeProfit: number;
-}
-
-// Exit Node Types
-export interface ExitNodeData extends BaseNodeData {
-    profitCheck: boolean;
-    lossCheck: boolean;
-    timeExit: string;
-}
-
-// Price Action Node Types
-export interface PriceActionNodeData extends BaseNodeData {
-    currentTick: number;
-    previousTick: number;
-    tickCount: number;
-}
-
-// Technical Analysis Node Types
-export interface TechnicalNodeData extends BaseNodeData {
-    indicator: string;
-    period: number;
-    value: number;
-}
-
-// Value Comparison Node Types
-export interface ComparisonNodeData extends BaseNodeData {
-    operator: ">" | "<" | "==" | ">=" | "<=";
-    value: number;
-}
-
-// Risk Management Node Types
-export interface RiskManagementNodeData extends BaseNodeData {
-    positionSizingRule: string;
-    maxTradesPerDay: number;
-    maxConsecutiveLosses: number;
-    maxDrawdown: number;
-}
-
-// Trade Management Node Types
-export interface TradeManagementNodeData extends BaseNodeData {
-    restartOnError: boolean;
-    restartOnProfit: boolean;
-    restartOnLoss: boolean;
-    tradeAgainDelay: number;
-}
-
-// Variable Node Types
-export interface VariableNodeData extends BaseNodeData {
-    variableName: string;
-    value: number | string | boolean;
-    type: "number" | "string" | "boolean";
-}
-
-// Logic Node Types
-export interface LogicNodeData extends BaseNodeData {
-    operationType: "AND" | "OR" | "IF" | "THEN";
-    conditions: string[];
-}
-
-// Node Colors
-export const nodeColors = {
-    entry: "border-blue-500",
-    position: "border-green-500",
-    exit: "border-red-500",
-    priceAction: "border-cyan-500",
-    technical: "border-purple-500",
-    comparison: "border-yellow-500",
-    riskManagement: "border-orange-500",
-    tradeManagement: "border-pink-500",
-    variable: "border-indigo-500",
-    logic: "border-teal-500",
-};
+import EntryNode from "./EntryNode";
+import PositionNode from "./PositionNode";
+import ExitNode from "./ExitNode";
+import PriceActionNode from "./PriceActionNode";
+import ComparisonNode from "./ComparisonNode";
+import RiskManagementNode from "./RiskManagementNode";
+import TradeManagementNode from "./TradeManagementNode";
+import VariableNode from "./VariableNode";
+import LogicNode from "./LogicNode";
 
 // Node Types Registry
 export const nodeTypes = {
-    entry: BaseNode,
-    position: BaseNode,
-    exit: BaseNode,
-    priceAction: BaseNode,
-    technical: BaseNode,
-    comparison: BaseNode,
-    riskManagement: BaseNode,
-    tradeManagement: BaseNode,
-    variable: BaseNode,
-    logic: BaseNode,
+    entry: EntryNode,
+    position: PositionNode,
+    exit: ExitNode,
+    priceAction: PriceActionNode,
+    comparison: ComparisonNode,
+    riskManagement: RiskManagementNode,
+    tradeManagement: TradeManagementNode,
+    variable: VariableNode,
+    logic: LogicNode,
 };
 
-// Export all node types
-export { BaseNode };
+// Re-export all node types and their data interfaces
+export * from "./EntryNode";
+export * from "./PositionNode";
+export * from "./ExitNode";
+export * from "./PriceActionNode";
+export * from "./ComparisonNode";
+export * from "./RiskManagementNode";
+export * from "./TradeManagementNode";
+export * from "./VariableNode";
+export * from "./LogicNode";
+export * from "./BaseNode";
