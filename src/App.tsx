@@ -1,12 +1,15 @@
 import { Header } from "./components/Header";
 import { AppContent } from "./AppContent";
+import { APIProvider } from "./api";
 
 function App() {
     return (
-        <div className="w-screen h-screen bg-white">
-            <Header />
-            <AppContent />
-        </div>
+        <APIProvider>
+            <div className="w-screen h-screen bg-white">
+                <Header />
+                <AppContent />
+            </div>
+        </APIProvider>
     );
 }
 

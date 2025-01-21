@@ -1,8 +1,17 @@
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import { StrategyPanel } from "../components/StrategyPanel";
 import { FlowBuilder } from "../components/FlowBuilder";
+import { useQuery } from "../api";
 
 export default function AppContent() {
+    const { isLoading } = useQuery({
+        active_symbols: "brief",
+        product_type: "basic",
+    });
+
+    if (isLoading) {
+        return <div>loading</div>;
+    }
     return (
         <div className="h-[calc(100vh-40px)]">
             <PanelGroup direction="horizontal" className="h-full">
