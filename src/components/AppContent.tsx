@@ -1,6 +1,6 @@
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
-import { StrategyConfig } from "./StrategyConfig";
-import { StrategyFlow } from "./StrategyFlow";
+import { StrategyPanel } from "./StrategyPanel";
+import { FlowBuilder } from "./FlowBuilder";
 
 export function AppContent() {
     return (
@@ -9,7 +9,7 @@ export function AppContent() {
                 <Panel defaultSize={25} minSize={20}>
                     <div className="h-full border-r border-gray-100 bg-white">
                         <div className="p-4 h-full">
-                            <StrategyConfig />
+                            <StrategyPanel />
                         </div>
                     </div>
                 </Panel>
@@ -26,7 +26,7 @@ export function AppContent() {
                                 backgroundSize: "24px 24px",
                             }}
                         >
-                            <StrategyFlow />
+                            <FlowBuilder />
                         </div>
                     </div>
                 </Panel>

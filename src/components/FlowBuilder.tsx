@@ -7,7 +7,6 @@ import ReactFlow, {
     addEdge,
     Connection,
     MarkerType,
-    Background,
     Panel,
 } from "reactflow";
 import "reactflow/dist/style.css";
@@ -215,7 +214,7 @@ const initialEdges: Edge[] = [
     },
 ];
 
-export function StrategyFlow() {
+export function FlowBuilder() {
     const [nodes, , onNodesChange] = useNodesState<NodeTypes>(initialNodes);
     const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
