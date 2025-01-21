@@ -1,6 +1,6 @@
 import { BrandDerivLogoCoralIcon } from "@deriv/quill-icons";
 
-export function NavBar() {
+export default function Header() {
     return (
         <div className="h-10 px-4 border-b border-gray-100 flex items-center justify-between bg-white">
             <div className="flex items-center gap-2.5">

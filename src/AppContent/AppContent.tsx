@@ -1,8 +1,8 @@
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
-import { StrategyPanel } from "./StrategyPanel";
-import { FlowBuilder } from "./FlowBuilder";
+import { StrategyPanel } from "../components/StrategyPanel";
+import { FlowBuilder } from "../components/FlowBuilder";
 
-export function AppContent() {
+export default function AppContent() {
     return (
         <div className="h-[calc(100vh-40px)]">
             <PanelGroup direction="horizontal" className="h-full">

@@ -22,7 +22,7 @@ import {
     TradeManagementNodeData,
     VariableNodeData,
     LogicNodeData,
-} from "./nodes";
+} from "./components/nodes";
 
 type NodeTypes =
     | EntryNodeData
@@ -214,7 +214,7 @@ const initialEdges: Edge[] = [
     },
 ];
 
-export function FlowBuilder() {
+export default function FlowBuilder() {
     const [nodes, , onNodesChange] = useNodesState<NodeTypes>(initialNodes);
     const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
