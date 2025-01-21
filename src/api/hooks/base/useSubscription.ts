@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { useAPI } from "../../context";
 import type { WebSocketResponse } from "../../websocket";
 
@@ -24,34 +24,39 @@ export function useSubscription<T = WebSocketResponse>(
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<Error | null>(null);
     const [isSubscribed, setIsSubscribed] = useState(false);
-    const [reqId, setReqId] = useState<number | null>(null);
+    const reqIdRef = useRef<number | null>(null);
+    const requestRef = useRef(request);
 
-    // Callback to handle subscription updates
-    const handleUpdate = useCallback((response: WebSocketResponse) => {
-        setData(response as T);
-    }, []);
+    // Update the request ref when it changes
+    useEffect(() => {
+        requestRef.current = request;
+    }, [request]);
 
     // Function to unsubscribe
     const unsubscribe = useCallback(() => {
-        if (reqId !== null) {
-            ws.unsubscribe(reqId);
-            setReqId(null);
+        if (reqIdRef.current !== null) {
+            ws.unsubscribe(reqIdRef.current);
+            reqIdRef.current = null;
             setIsSubscribed(false);
             setData(null);
             setError(null);
         }
-    }, [reqId, ws]);
+    }, [ws]);
 
     // Function to subscribe
     const subscribe = useCallback(async () => {
-        // Unsubscribe from any existing subscription first
-        unsubscribe();
-
         setIsLoading(true);
         setError(null);
         try {
-            const id = await ws.subscribe(request, handleUpdate);
-            setReqId(id);
+            // Unsubscribe from any existing subscription first
+            unsubscribe();
+
+            const handleUpdate = (response: WebSocketResponse) => {
+                setData(response as T);
+            };
+
+            const id = await ws.subscribe(requestRef.current, handleUpdate);
+            reqIdRef.current = id;
             setIsSubscribed(true);
         } catch (err) {
             setError(
@@ -60,7 +65,7 @@ export function useSubscription<T = WebSocketResponse>(
         } finally {
             setIsLoading(false);
         }
-    }, [request, ws, handleUpdate, unsubscribe]);
+    }, [ws, unsubscribe]);
 
     // Handle subscription lifecycle
     useEffect(() => {
@@ -69,7 +74,9 @@ export function useSubscription<T = WebSocketResponse>(
         } else {
             unsubscribe();
         }
-        return unsubscribe;
+        return () => {
+            unsubscribe();
+        };
     }, [enabled, subscribe, unsubscribe]);
 
     return {
